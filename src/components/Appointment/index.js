@@ -16,6 +16,38 @@ export default function Appointment(props) {
     props.interview ? SHOW : EMPTY
   );
 
+  function save(name, interviewer) {
+
+    if (name && interviewer) {
+
+      const interview = {
+        student: name,
+        interviewer
+      };
+
+      props.bookInterview(props.id, interview)
+      .then(() => transition(SHOW))
+      .catch(() => transition(ERROR_SAVE, true))
+    }
+  }
+
+  function deleteInterview(student, interviewer) {
+    if (mode === confirm) {
+      transition(DELETE, true);
+
+      const interview = {
+        student,
+        interviewer
+      };
+
+      props.cancelInterview(props.id, interview)
+      .then(() => transition(EMPTY))
+      .catch(error => transition(ERROR_DELETE, true))
+    } else {
+      transition(CONFIRM);
+    }
+  }
+
   return (
     <article className="appointment">
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
