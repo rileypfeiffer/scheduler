@@ -7,13 +7,13 @@ import axios from "axios";
 import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors";
 
 export default function Application(props) {
-  const [state, setState] = useState({
-    day: "Monday",
-    days: [],
-    // you may put the line below, but will have to remove/comment hardcoded appointments variable
-    appointments: {}
-  });
-  
+  const {
+    state,
+    setDay,
+    bookInterview,
+    cancelInterview
+  } = useApplicationData();
+
   const dailyAppointments = getAppointmentsForDay(state, state.day);
   const interviewers = getInterviewersForDay(state, state.day);
 
@@ -60,9 +60,10 @@ const schedule = dailyAppointments.map((appointment) => {
   return (
     <Appointment
       key={appointment.id}
+      {...appointment}
       interviewers={interviewers}
-      time={appointment.time}
-      interview={interview}
+      bookInterview={bookInterview}
+      cancelInterview={cancelInterview}
     />
   );
 });
