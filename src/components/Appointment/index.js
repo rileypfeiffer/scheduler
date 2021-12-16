@@ -1,10 +1,13 @@
 import React from "react";
 import "components/Appointment/styles.scss"
-import Header from "components/Appointment/Header";
-import Show from "components/Appointment/Show";
-import Empty from "components/Appointment/Empty";
+import Header from "./Header";
+import Show from "./Show";
+import Empty from "./Empty";
 import useVisualMode from "hooks/useVisualMode";
-import Form from "components/Appointment/Form";
+import Form from "./Form";
+import Confirm from "./Confirm";
+import Error from "./Error";
+import Status from "./Status";
 
 export default function Appointment(props) {
 
@@ -13,6 +16,7 @@ export default function Appointment(props) {
   const CREATE = "CREATE";
   const SAVING = "SAVING";
   const DELETE = "DELETE";
+  const CONFIRM = "CONFIRM";
   const EDIT = "EDIT";
   const ERROR_SAVE = "ERROR_SAVE";
   const ERROR_DELETE = "ERROR_DELETE";
