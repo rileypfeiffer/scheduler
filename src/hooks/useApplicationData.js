@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import "components/Application.scss";
 
@@ -38,7 +38,7 @@ export default function useApplicationData() {
         ...prev,
         appointments,
         days: remainingSpots
-      }
+      };
     });
     return axios.put(`/api/appointments/${id}`, {interview})
   }
@@ -58,30 +58,26 @@ export default function useApplicationData() {
       const remainingSpots = updateSpotsRemaining(prev, appointments);
       return {
         ...state,
-        appointments
+        appointments,
+        days: remainingSpots
       }
     });
     return axios.delete(`/api/appointments/${id}`, interview)
   }
 
-  function updateSpotsRemaining(state, id) {
+  function updateSpotsRemaining(state, appointments) {
     let remainingSpots = 0;
-    const day = state.days.filter((element) =>
-    element.appointments.includes(id)
-    );
+    const day = state.days.find((day) => day.name === state.day);
 
-    let dayArray = day[0];
-
-    for(const appointmentID of dayArray.appointments) {
-      if (state.appointments[appointmentID].interview === null) {
+    for(const appointmentID of day.appointments) {
+      if (appointments[appointmentID].interview === null) {
         remainingSpots++;
       }
     }
 
-    const vacantDay = { ...dayArray, spots };
-    const index = state.days.findIndex(day => day.name === dayArray.name);
-    state.days[index] = vacantDay;
-    setState(state);
+    const vacantDay = { ...day, remainingSpots };
+    const daysArray = state.days.map((day) => (day.name === state.day ? vacantDay : day));
+    return daysArray;
   }
   return { state, setDay, bookInterview, cancelInterview, updateSpotsRemaining }
 }

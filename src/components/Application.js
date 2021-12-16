@@ -3,7 +3,6 @@ import "components/Application.scss";
 import DayList from "components/DayList";
 import "components/Appointment";
 import Appointment from "components/Appointment";
-import axios from "axios";
 import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors";
 import useApplicationData from "hooks/useApplicationData";
 
