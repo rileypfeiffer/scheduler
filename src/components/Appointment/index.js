@@ -42,7 +42,6 @@ export default function Appointment(props) {
   }
 
   function deleteInterview(student, interviewer) {
-    if (mode === confirm) {
       transition(DELETE, true);
 
       const interview = {
@@ -53,10 +52,7 @@ export default function Appointment(props) {
       props.cancelInterview(props.id, interview)
       .then(() => transition(EMPTY))
       .catch(error => transition(ERROR_DELETE, true))
-    } else {
-      transition(CONFIRM);
     }
-  }
 
   function edit() {
     transition(EDIT);
